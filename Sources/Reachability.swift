@@ -1,3 +1,5 @@
+#if os(iOS) || os(macOS) || os(tvOS)
+
 /*
 Copyright (c) 2014, Ashley Mills
 All rights reserved.
@@ -69,7 +71,7 @@ public class Reachability {
             case .unavailable: return "No Connection"
             }
         }
-        
+
         @available(*, deprecated, renamed: "unavailable")
         public static let none: Connection = .unavailable
     }
@@ -100,7 +102,7 @@ public class Reachability {
         if flags == nil {
             try? setReachabilityFlags()
         }
-        
+
         switch flags?.connection {
         case .unavailable?, nil: return .unavailable
         case .cellular?: return allowsCellularConnection ? .cellular : .unavailable
@@ -261,11 +263,11 @@ fileprivate extension Reachability {
                 self.stopNotifier()
                 throw ReachabilityError.unableToGetFlags(SCError())
             }
-            
+
             self.flags = flags
         }
     }
-    
+
 
     func notifyReachabilityChanged() {
         let notify = { [weak self] in
@@ -403,3 +405,5 @@ private class ReachabilityWeakifier {
         self.reachability = reachability
     }
 }
+
+#endif
